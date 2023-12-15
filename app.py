@@ -2,10 +2,6 @@ import streamlit as st
 # Load model directly
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from PIL import Image
-from diffusers import DiffusionPipeline
-
-def text_img(text):
-    pipeline = DiffusionPipeline.from_pretrained("stabilityai/sdxl-turbo")
 
 def text_img(image_path):
     # Load processor and model
@@ -23,7 +19,6 @@ def text_img(image_path):
     decoded_text = processor.decode(text[0], skip_special_tokens=True)
 
     return decoded_text
-
 
 ## streamlit function for app UI and logics 
 def shadow_box_text(text, shadow_color="rgba(0, 0, 0, 0.2)", text_color="black", font_size="20px"):
