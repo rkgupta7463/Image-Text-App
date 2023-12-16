@@ -1,9 +1,8 @@
 import streamlit as st
-# Load model directly
-from transformers import BlipProcessor, BlipForConditionalGeneration
 from PIL import Image
+from transformers import BlipProcessor, BlipForConditionalGeneration
 
-def text_img(image_path):
+def text_img(image_path, max_new_tokens=50):  # Adjust max_new_tokens as needed
     # Load processor and model
     processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
     model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
@@ -12,14 +11,14 @@ def text_img(image_path):
     image = Image.open(image_path)
     inputs = processor(images=image, return_tensors="pt")
 
-    # Generate text
-    text = model.generate(**inputs)
+    # Generate text with max_new_tokens
+    text = model.generate(**inputs, max_new_tokens=max_new_tokens)
     
     # Decode the generated text
     decoded_text = processor.decode(text[0], skip_special_tokens=True)
 
     return decoded_text
-
+    
 ## streamlit function for app UI and logics 
 def shadow_box_text(text, shadow_color="rgba(0, 0, 0, 0.2)", text_color="black", font_size="20px"):
     # Use HTML and CSS to create a box with text inside
